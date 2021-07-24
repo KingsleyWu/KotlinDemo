@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource #使用阿里巴巴的连接池Druid
+    druid:
+      mysql:
+        usePingMethod: false
+      filters: stat,slf4j   # 启用2个过滤器.一个指标统计,一个日志输出.
+      max-active: 100       # 最大活跃连接数.超过这个数字,新的连接申请会等待.
+      initial-size: 1       # 初始化连接数, 根据业务量决定.一般等于 min-idle 配置
+      max-wait: 60000       # 获得连接最大等待时间, 毫秒值,默认值 -1
+      min-idle: 10          # 最小闲置连接数,根据业务决定. 这些连接不会注销.会一直保持
+      time-between-eviction-runs-millis: 60000    # 自动关闭的检测间隔,单位毫秒
+      min-evictable-idle-time-millis: 300000      # 最小生存时间,单位毫秒
+      validation-query: select 1                  # 检验连接有效性的sql
+      test-while-idle: true               # 在闲置连接时检测有效性
+      test-on-borrow: true                # 在分配连接时检测有效性
+      test-on-return: true                # 在归还连接时检测有效性
+      pool-prepared-statements: true      # 是否缓存 preparedStatement
+      max-open-prepared-statements: 200   # preparedStatement 的最大缓存数量
+      filter:                                         # 过滤器配置
+        slf4j:                                        # 日志过滤器
+          enabled: true                               # 启用
+          statement-prepare-after-log-enabled: false  # 参数化查询准备好后输出日志
+          statement-close-after-log-enabled: false    # 关闭连接时输出日志,相关配置还有很多.可以参考后面的 #附录1
+    driver-class-name: com.mysql.cj.jdbc.Driver       # 连接驱动类路径
+    url: jdbc:mysql://192.168.1.250:3306/java_1?characterEncoding=utf8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: mrqoo
+    password: dEkecr8b
+#    url: jdbc:mysql://127.0.0.1:3306/java_1?characterEncoding=utf8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+#    username: root
+#    password: root
+
+mybatis:
+  configuration:
+    # 將數據庫中的下劃線字段轉為駝峰命名的屬性
+    map-underscore-to-camel-case: true
+    # 更多配置參考 https://mybatis.org/mybatis-3/zh/configuration.html#settings
